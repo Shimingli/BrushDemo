@@ -53,6 +53,23 @@ public class Main2Activity extends AppCompatActivity {
         mBitmapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMyGLSurfaceView.saveImageText(new MyGLSurfaceView.saveImageListener() {
+                    @Override
+                    public void saveSuccess(final Bitmap path, final File pathd) {
+                        new Thread(){
+                            public void run(){
+                                mPathd1 = pathd;
+                                mTestBitmap = path;
+                                handler.post(runnableUi);
+                            }
+                        }.start();
+                    }
+
+                    @Override
+                    public void saveFailurw() {
+
+                    }
+                });
 
             }
         });
@@ -76,36 +93,12 @@ public class Main2Activity extends AppCompatActivity {
                                 handler.post(runnableUi);
                             }
                         }.start();
-//                        saveBitmap(pathd);
-//                        mMyGLSurfaceView.clearScreen();
-//                        boolean b = addJpgSignatureToGallery(path);
-//                        if (b) {
-//                            saveBitmap(mPhoto);
-//                            mMyGLSurfaceView.clearScreen();
-//                        }
                     }
-
                     @Override
                     public void saveFailurw() {
 
                     }
                 });
-
-//                Bitmap signatureBitmap = mMyGLSurfaceView.getRenderer().getBitmap();
-//
-//
-//                //                mImageView.setVisibility(View.VISIBLE);
-//                //                mImageView.setImageBitmap(signatureBitmap);
-//                boolean b = addJpgSignatureToGallery(signatureBitmap);
-//                if (b) {
-//                    saveBitmap(mPhoto);
-//                    mMyGLSurfaceView.clearScreen();
-//                }
-                //                mMyGLSurfaceView.saveImage();
-                //                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/FastBrush"); //Creates app specific folder
-                //                path.mkdirs();
-                //                File imageFile = new File(path, "shiming" + ".png"); // Imagename.png
-                //                saveBitmap(imageFile);
 
             }
         });
@@ -117,8 +110,6 @@ public class Main2Activity extends AppCompatActivity {
     Runnable   runnableUi=new  Runnable(){
         @Override
         public void run() {
-//            saveBitmap(mPathd1);
-
             Bitmap bitmap = BitmapUtils.resizeImage(mTestBitmap, 100, 100);
             if (bitmap != null) {
                 //根据Bitmap对象创建ImageSpan对象
