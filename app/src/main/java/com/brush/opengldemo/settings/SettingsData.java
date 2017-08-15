@@ -18,7 +18,7 @@ public class SettingsData {
     private ColorWrapper colorWrapper;//颜色的透明度和rgb的值
 
     private boolean showBrushView;
-    
+
     /**
      * {
      "bristleThickness": 0.17,
