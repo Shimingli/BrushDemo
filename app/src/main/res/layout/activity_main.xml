@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-
     <Button
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
