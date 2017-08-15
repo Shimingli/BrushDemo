@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <!--  <android.support.v7.widget.RecyclerView
+          android:id="@+id/rc_who_can_select"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <EditText
+            android:id="@+id/modify_edit_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:focusable="true"
+            android:gravity="left|top"
+            android:maxLength="1000"
+            android:textSize="15sp"/>
+    </LinearLayout>
+    <ImageView
+        android:background="#4400ff00"
+        android:visibility="gone"
+        android:id="@+id/iamgeview"
+        android:scaleType="centerCrop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!--  <com.github.gcacace.signaturepad.views.SignaturePad
+          android:id="@+id/signature_pad"
+          android:layout_width="match_parent"
+          android:layout_height="250dp"
+          android:background="#44660450"/>-->
+
+    <ViewStub
+        android:id="@+id/view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout="@layout/layout_mygl_surface_view" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="clear"/>
+        <Button
+            android:id="@+id/bitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="bitmap"/>
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="save_signature"/>
+    </LinearLayout>
+</LinearLayout>
