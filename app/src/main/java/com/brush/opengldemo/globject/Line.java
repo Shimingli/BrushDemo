@@ -10,6 +10,7 @@ import java.nio.FloatBuffer;
 
 /**
  * Class to draw a simple line to show the canvas in the orthogonal view.
+ * 类绘制一个简单的行，以显示在正交视图中的画布。
  */
 public class Line {
 

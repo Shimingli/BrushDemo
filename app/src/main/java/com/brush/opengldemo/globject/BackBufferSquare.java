@@ -40,6 +40,7 @@ public class BackBufferSquare {
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
+     * 设置在OpenGL ES上下文中使用的绘图对象数据。
      */
     public BackBufferSquare(float ratio) {
         vertexBuffer = GLhelper.initFloatBuffer(getTranslatedVertexCoords(TexturedSquare.DEFAULT_SQUARE_COORDS, ratio));

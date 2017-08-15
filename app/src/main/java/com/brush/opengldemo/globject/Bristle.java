@@ -6,6 +6,7 @@ import com.brush.opengldemo.vector.Vector3;
 
 /**
  * Writing primitive for the brush.
+ * primitive ====原始的  最原始的笔
  */
 public class Bristle {
 

@@ -78,6 +78,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         switch (e.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+
                 if(mVelocityTracker == null) {
                     mVelocityTracker = VelocityTracker.obtain();
                 } else {
@@ -94,9 +95,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 
             case MotionEvent.ACTION_MOVE:
-
                 mVelocityTracker.addMovement(e);
-
+//                mVelocityTracker.computeCurrentVelocity(1000, Float.MAX_VALUE);
                 mVelocityTracker.computeCurrentVelocity(1);
                 //getHistorySize() 来获得历史的大小值,它可以返回当前事件可用的运动位置的数目
                 final ArrayList<TouchData> touchDataList = new ArrayList<>(e.getHistorySize() + 1);
@@ -119,6 +119,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 queueEvent(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println("shiming" +touchDataList.size());
                         mRenderer.addTouchData(touchDataList);
                     }
                 });
@@ -134,6 +135,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
                         mRenderer.touchHasEnded();
                     }
                 });
+                if (mVelocityTracker != null) {
+                    mVelocityTracker.clear();
+                    mVelocityTracker.recycle();
+                    mVelocityTracker = null;
+                }
+
                 requestRender();
                 break;
         }
