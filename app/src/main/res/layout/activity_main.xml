@@ -12,4 +12,10 @@
         android:text="go_2_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/goto_demo"
+        android:text="goToDemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

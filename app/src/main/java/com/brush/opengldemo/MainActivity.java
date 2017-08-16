@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import butterknife.ButterKnife;
@@ -45,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,Main2Activity.class));
             }
         });
-
+        findViewById(R.id.goto_demo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,BrushActivity.class));
+            }
+        });
         if (false){
             glSurfaceView.saveImage();
             glSurfaceView.clearScreen();
