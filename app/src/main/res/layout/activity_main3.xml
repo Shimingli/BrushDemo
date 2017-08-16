@@ -13,11 +13,6 @@
         android:text="手写颜色"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -28,47 +23,76 @@
         card_view:cardElevation="5dp"
         card_view:contentPadding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <LinearLayout
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+  </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="5dp"
+        card_view:contentPadding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_weight="1"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/px_container1"
                 android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:background="@drawable/shpa1"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/textView1"
+                    android:src="@drawable/circle5"
+                    android:scaleType="centerCrop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:text="2px"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="1px"/>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:id="@+id/px_container2"
                 android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:background="@drawable/shpa3"
-                    android:layout_width="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/textView2"
+                    android:src="@drawable/circle10"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:text="3px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_weight="1"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/px_container3"
                 android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:background="@drawable/shpa"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/textView3"
+                    android:src="@drawable/circle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
@@ -76,8 +100,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
+
+
+
 
     </android.support.v7.widget.CardView>
 
+    <com.brush.opengldemo.weight.CanImagView
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
