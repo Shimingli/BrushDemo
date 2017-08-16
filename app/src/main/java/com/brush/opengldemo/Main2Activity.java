@@ -1,5 +1,6 @@
 package com.brush.opengldemo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,8 +10,12 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
@@ -18,12 +23,19 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+
+import com.brush.opengldemo.config.AppConfig;
+import com.brush.opengldemo.utils.FileUtils;
+import com.brush.opengldemo.utils.NetworkUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -31,12 +43,15 @@ public class Main2Activity extends AppCompatActivity {
     private Button mClearButton;
     private Button mSaveButton;
     private Button mBitmapButton;
+    private Button mBtnSave, mBtnRead,mBtnSavePreview;
+
     private File mPhoto;
     private Bitmap mBitmap;
     private EditText mEText;
     private ImageView mImageView;
     private File mPathd1;
     private Bitmap mTestBitmap;
+    private ScrollView mSv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +64,12 @@ public class Main2Activity extends AppCompatActivity {
         mClearButton = (Button) findViewById(R.id.clear);
         mSaveButton = (Button) findViewById(R.id.save);
         mBitmapButton = (Button) findViewById(R.id.bitmap);
+        mBtnSave = (Button) findViewById(R.id.btn_edit_save);
+        mBtnRead = (Button) findViewById(R.id.btn_edit_read);
+        mBtnSavePreview = (Button) findViewById(R.id.btn_edit_save_preview);
+        mSv = (ScrollView) findViewById(R.id.sv_edit_content);
         mEText = (EditText) findViewById(R.id.modify_edit_text_view);
+        mEText.setInputType(InputType.TYPE_NULL);
         mBitmapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +122,50 @@ public class Main2Activity extends AppCompatActivity {
 
             }
         });
+        mBtnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FileUtils.saveTextSd(mEText.getText().toString(), "content");
+                mEText.setText("");
+            }
+        });
+        mBtnRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txt = FileUtils.readTextWrapSd();
+//                    mEText.setText(txt);
+
+                if(TextUtils.isEmpty(txt))
+                    return;
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(txt);
+                Pattern pattern = Pattern.compile("\\[p](\\S+?)\\[/p]");//匹配[xx]的字符串
+                Matcher matcher = pattern.matcher(txt);
+                while (matcher.find()) {
+                    int start = matcher.start();
+                    int end = matcher.end();
+                    String group = matcher.group();
+                    group = group.substring(3, group.length() - 4);
+                    FileInputStream fis = null;
+                    Bitmap bitmap = FileUtils.readBitmapSd("/sdcard/niannian/002/" + group + ".png");
+                    ImageSpan imageSpan = new ImageSpan(Main2Activity.this, bitmap);
+                    spannableStringBuilder.setSpan(imageSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    BitmapUtils.recycled(bitmap);
+                }
+                mEText.setText(spannableStringBuilder);
+                mEText.setSelection(spannableStringBuilder.length());
+            }
+        });
+
+        mBtnSavePreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = "scrollview.jpg";
+                FileUtils.getScrollViewBitmap(mSv, AppConfig.PATH_SD+name);
+                File file = new File(AppConfig.PATH_SD+name);
+                NetworkUtil.qnFile(file,name);
+                startActivity(new Intent(Main2Activity.this,ImageActivity.class));
+            }
+        });
     }
 
     private static String full_name = "";
@@ -110,13 +174,13 @@ public class Main2Activity extends AppCompatActivity {
     Runnable   runnableUi=new  Runnable(){
         @Override
         public void run() {
-            Bitmap bitmap = BitmapUtils.resizeImage(mTestBitmap, 100, 100);
+            final Bitmap bitmap = BitmapUtils.resizeImage(mTestBitmap, 100, 100);
             if (bitmap != null) {
                 //根据Bitmap对象创建ImageSpan对象
                 ImageSpan imageSpan = new ImageSpan(Main2Activity.this, bitmap);
                 //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
                 full_name = LAST_NAME + first_name;
-                String s = "[" + full_name + "]";
+                String s = "[p]" + full_name + "[/p]";
                 first_name++;
                 SpannableString spannableString = new SpannableString(s);
                 //  用ImageSpan对象替换face
@@ -129,6 +193,12 @@ public class Main2Activity extends AppCompatActivity {
                 } else {
                     edit_text.insert(index, spannableString);
                 }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FileUtils.saveBitmapSd(bitmap, full_name);
+                    }
+                }).start();
             }
 
             mMyGLSurfaceView.clearScreen();

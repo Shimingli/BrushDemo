@@ -10,7 +10,8 @@
           android:layout_height="0dp"
           android:layout_weight="1"/>-->
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/sv_edit_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -23,12 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#00000000"
+            android:background="@android:color/white"
             android:focusable="true"
             android:gravity="left|top"
             android:maxLength="1000"
             android:textSize="15sp"/>
-    </LinearLayout>
+    </ScrollView>
     <ImageView
         android:background="#4400ff00"
         android:visibility="gone"
@@ -70,5 +71,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="save_signature"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_edit_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="保存" />
+
+        <Button
+            android:id="@+id/btn_edit_read"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="读取" />
+
+        <Button
+            android:id="@+id/btn_edit_save_preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="生成大图并预览" />
     </LinearLayout>
 </LinearLayout>
