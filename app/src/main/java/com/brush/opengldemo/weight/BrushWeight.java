@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.brush.opengldemo.MyGLSurfaceView;
 import com.brush.opengldemo.R;
+import com.brush.opengldemo.settings.SettingsData;
+import com.brush.opengldemo.settings.SettingsManager;
 
 /**
  * Created by shiming on 2017/8/15.
@@ -23,6 +25,8 @@ public class BrushWeight extends FrameLayout implements View.OnClickListener {
     private TextView mTextView3;
     private TextView mTextView4;
     private MyGLSurfaceView mMyGLSurfaceView;
+    private SettingsManager settingsManager;
+    private SettingsData settingsData;
 
     public BrushWeight(@NonNull Context context) {
         this(context,null);
@@ -31,6 +35,8 @@ public class BrushWeight extends FrameLayout implements View.OnClickListener {
 
     public BrushWeight(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        settingsManager = SettingsManager.getInstance(context);
+        settingsData = settingsManager.getSettingsData().clone();
         initView();
     }
 
@@ -48,6 +54,9 @@ public class BrushWeight extends FrameLayout implements View.OnClickListener {
         mTextView2.setOnClickListener(this);
         mTextView3.setOnClickListener(this);
         mTextView4.setOnClickListener(this);
+
+        settingsData.setNumBristles(10);
+        settingsManager.saveSettingsData(settingsData);
 
     }
     public void onPause(){
