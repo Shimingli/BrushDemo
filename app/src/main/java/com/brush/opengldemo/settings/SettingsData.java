@@ -13,6 +13,15 @@ public class SettingsData {
     private float pressureFactor; //压力与深度的因素  按压的时间越长的画，会越来越弄的颜色
     private float bristleThickness;//墨水的多少  0.01   1.0   墨水越大   越弄
 
+    public int getPaintWidht() {
+        return paintWidht;
+    }
+
+    public void setPaintWidht(int paintWidht) {
+        this.paintWidht = paintWidht;
+    }
+
+    private int paintWidht;
     private boolean isDry;
     private float opacity;
     private ColorWrapper colorWrapper;//颜色的透明度和rgb的值
@@ -43,6 +52,7 @@ public class SettingsData {
      }
      */
     public SettingsData(){
+        paintWidht=5;
         size = 0.13f; //0.5
         numBristles = 230;
         pressureFactor = 0.13f;

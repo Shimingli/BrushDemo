@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.opengl.EGL14;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -67,7 +66,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final float BRUSH_VIEW_PADDING_VERTICAL = 0.15f;
     private static final float BRUSH_VIEW_SCALE = 0.3f;
 
-    private static final int NUM_BACK_BUFFERS = 5;
+    private static final int NUM_BACK_BUFFERS = 10;//笔可以返回多少步骤，
 
     // Matrices for the camera
     private final float[] mvpMatrix = new float[16];
@@ -160,8 +159,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // such as screen rotation
         GLES30.glViewport(0, 0, width, height);
 //
-        EGL14.eglSurfaceAttrib(EGL14.eglGetCurrentDisplay(), EGL14.eglGetCurrentSurface(EGL14.EGL_DRAW), EGL14.EGL_SWAP_BEHAVIOR, EGL14.EGL_BUFFER_PRESERVED);
-//
+//        EGL14.eglSurfaceAttrib(EGL14.eglGetCurrentDisplay(), EGL14.eglGetCurrentSurface(EGL14.EGL_DRAW), EGL14.EGL_SWAP_BEHAVIOR, EGL14.EGL_BUFFER_PRESERVED);
+        //
         this.width = width;
         this.height = height;
         screenRatio = (float) width / height;
@@ -169,7 +168,25 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         backBufferSquare = new BackBufferSquare(screenRatio);
         backBufferManager = new BackBufferManager(NUM_BACK_BUFFERS, this.width, this.height);
 //
-//        // This projection matrix is applied to object coordinates in the onDrawFrame() method
+
+        /**
+         * /**
+         * 设置正交投影的参数
+         *
+         * @param left
+         *            近平面的 left
+         * @param right
+         *            近平面的 right
+         * @param bottom
+         *            近平面的 bottom
+         * @param top
+         *            近平面的 top
+         * @param near
+         *            近平面的距离
+         * @param far
+         *            远平面的距离
+         */
+        //        // This projection matrix is applied to object coordinates in the onDrawFrame() method
 //        //Matrix.frustumM(projectionMatrix, 0, -screenRatio, screenRatio, -1, 1, CAMERA_DISTANCE, CAMERA_DISTANCE * CAMERA_DISTANCE_FAR_SCALE);
         Matrix.orthoM(projectionMatrix, 0, -screenRatio, screenRatio, -1, 1, CAMERA_DISTANCE, CAMERA_DISTANCE * CAMERA_DISTANCE_FAR_SCALE);
 //

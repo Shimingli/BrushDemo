@@ -22,9 +22,9 @@ public class BackBufferManager {
 
     public BackBufferManager(int numBuffers, int width, int height) {
 
-        if(numBuffers < 1) {
-            throw new IllegalArgumentException();
-        }
+//        if(numBuffers < 1) {
+//            throw new IllegalArgumentException();
+//        }
 
         this.numBuffers = numBuffers;
         this.currentBuffer = 0;

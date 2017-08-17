@@ -53,6 +53,7 @@ public class Brush {
 
         numBristles = settingsData.getNumBristles();
         //numBristles = 2;
+        numBristles=10;
 
         sizePressureFactor = settingsData.getPressureFactor();
 

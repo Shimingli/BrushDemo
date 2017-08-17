@@ -101,10 +101,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 //getHistorySize() 来获得历史的大小值,它可以返回当前事件可用的运动位置的数目
                 final ArrayList<TouchData> touchDataList = new ArrayList<>(e.getHistorySize() + 1);
                 Vector2 viewportPosition;
-
+                float xVelocity = mVelocityTracker.getXVelocity();
+                float yVelocity = mVelocityTracker.getYVelocity();
                 Vector2 viewportVelocity =
                         new Vector2(VelocityTrackerCompat.getXVelocity(mVelocityTracker, e.getActionIndex()),
                         VelocityTrackerCompat.getYVelocity(mVelocityTracker, e.getActionIndex()));
+
 
                 for(int i = 0; i < e.getHistorySize(); i++) {
                     viewportPosition = new Vector2(e.getHistoricalX(i), e.getHistoricalY(i));

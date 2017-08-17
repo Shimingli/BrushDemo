@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 文件操作类
@@ -164,5 +166,50 @@ public class FileUtils {
             e.printStackTrace();
         }
         return result;
+    }
+    public static String saveAsPng(Bitmap bitmap, String path, String rootPath) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date currentDate = new Date(System.currentTimeMillis());
+        String fileName = null;
+        if (path != null) {
+            fileName = path.split("/")[path.split("/").length - 1];
+            fileName = fileName.substring(0, fileName.length() - 4);
+        } else {
+            fileName = simpleDateFormat.format(currentDate);
+        }
+        File rootFile = new File(rootPath);
+        File file = new File(rootPath, fileName + ".png");
+        if (!rootFile.exists()) {
+            rootFile.mkdir();
+        } else {
+            if (file.exists()) {
+                file.delete();
+                File xmlFile = new File(rootPath, fileName + ".xml");
+                if (xmlFile.exists())
+                    xmlFile.delete();
+            }
+        }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return fileName;
     }
 }
