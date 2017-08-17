@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ScrollView;
 
 import com.brush.opengldemo.BitmapUtils;
+import com.brush.opengldemo.config.AppConfig;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,13 +33,13 @@ public class FileUtils {
      */
     public static void saveBitmapSd(Bitmap bitmap, String picName){
         try {
-            File fil = new File("/sdcard/niannian/002");
+            File fil = new File(AppConfig.PATH_SD);
             if (!fil.exists()) {
                 fil.mkdirs();
             }
-            File file = new File("/sdcard/niannian/002",picName + ".png");
+            File file = new File(AppConfig.PATH_SD,picName + ".png");
             FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
             BitmapUtils.recycled(bitmap);
@@ -85,7 +86,7 @@ public class FileUtils {
         }
         try {
             if (null != out) {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.flush();
                 out.close();
             }
@@ -103,7 +104,7 @@ public class FileUtils {
     public static void saveTextSd(String txt, String name){
         try
         {
-            String fullNmae = "/sdcard/niannian/002/"+name+".txt";
+            String fullNmae = AppConfig.PATH_SD+name+".txt";
             File file = new File(fullNmae);
             if(file.exists()){
                 file.delete();
@@ -129,7 +130,7 @@ public class FileUtils {
     public static String readTextSd() {
         String str = "";
         try {
-            File urlFile = new File("/sdcard/niannian/002/content.txt");
+            File urlFile = new File(AppConfig.PATH_SD + "content.txt");
             InputStreamReader isr = new InputStreamReader(new FileInputStream(urlFile), "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String mimeTypeLine = null;
@@ -154,7 +155,7 @@ public class FileUtils {
     public static String readTextWrapSd() {
         String result = null;
         try {
-            File file = new File("/sdcard/niannian/002/content.txt");
+            File file = new File(AppConfig.PATH_SD + "content.txt");
             if (!file.exists()) {
                 return null;
             }
@@ -167,6 +168,7 @@ public class FileUtils {
         }
         return result;
     }
+
     public static String saveAsPng(Bitmap bitmap, String path, String rootPath) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");

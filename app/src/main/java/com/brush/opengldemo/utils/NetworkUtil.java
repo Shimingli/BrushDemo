@@ -33,7 +33,7 @@ public class NetworkUtil {
                 if (info != null && info.isOK()) {
                     Log.e("TAG","上传成功" + info.statusCode);
                 }else{
-                    Log.e("TAG","上传失败 = " + info.statusCode + "___" + info);
+                    Log.e("TAG","上传失败 = " +  info);
                 }
             }
         }, new UploadOptions(null, null, false, new UpProgressHandler() {

@@ -18,6 +18,6 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView mIv = (ImageView) findViewById(R.id.iv_image);
-        mIv.setImageBitmap(FileUtils.readBitmapSd(AppConfig.PATH_SD+"scrollview.jpg"));
+        mIv.setImageBitmap(FileUtils.readBitmapSd(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW));
     }
 }

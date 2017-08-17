@@ -11,11 +11,18 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.brush.opengldemo.BitmapUtils;
+import com.brush.opengldemo.ImageActivity;
 import com.brush.opengldemo.R;
+import com.brush.opengldemo.config.AppConfig;
 import com.brush.opengldemo.utils.FileUtils;
+import com.brush.opengldemo.utils.NetworkUtil;
+
+import java.io.File;
 
 public class TestActivity extends AppCompatActivity {
     public static final int MODE_PATH = 0;
@@ -30,19 +37,23 @@ public class TestActivity extends AppCompatActivity {
     public static final String TEMPORARY_PATH = ROOT_DIRECTORY + "/temporary";
     private Bitmap mBitmap;
     private EditText mEText;
+    private Button mBtnLook;
+    private ScrollView mSv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         final Handler handler = new Handler();
+        mSv = (ScrollView) findViewById(R.id.sv_edit_txt);
         mEText = (EditText) findViewById(R.id.modify_edit_text_view);
+        mBtnLook = (Button) findViewById(R.id.btn_look);
 //        mEText.setInputType(InputType.TYPE_NULL);
         mBrushWeightTest = (BrushWeightTest) findViewById(R.id.brush_weight);
         mBrushWeightTest.setgoToAcitivity(new BrushWeightTest.IActionCallback() {
             @Override
             public void gotoWetingActivity(View view) {
-                startActivity(new Intent(TestActivity.this,SetingPenConfigActivity.class));
+                startActivity(new Intent(TestActivity.this, SetingPenConfigActivity.class));
             }
 
             @Override
@@ -61,7 +72,18 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-
+        mBtnLook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            /*三个操作 1.保存长图 2.上传服务器  3.预览*/
+//                if (!TextUtils.isEmpty(mEText.getText())) {
+                    FileUtils.getScrollViewBitmap(mSv, AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
+                    File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
+                    NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
+                    startActivity(new Intent(TestActivity.this, ImageActivity.class));
+//                }
+            }
+        });
     }
 
     @Override
@@ -73,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
     private static String full_name = "";
     private static final String LAST_NAME = "img_";
     private int first_name = 1;
-    Runnable   runnableUi=new  Runnable(){
+    Runnable runnableUi = new Runnable() {
         @Override
         public void run() {
             final Bitmap bitmap = BitmapUtils.resizeImage(mBitmap, 100, 100);

@@ -10,4 +10,6 @@ public class AppConfig {
 
     //文件保存路径
     public static final String PATH_SD = Environment.getExternalStorageDirectory().getPath() + "/niannian/002/";
+
+    public static final String NAME_IMG_SCROLLVIEW  = "scrollview.png";
 }

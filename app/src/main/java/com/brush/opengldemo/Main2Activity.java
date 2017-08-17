@@ -37,13 +37,15 @@ import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.brush.opengldemo.utils.SystemUtils.sendKeyCode;
+
 public class Main2Activity extends AppCompatActivity {
 
     private MyGLSurfaceView mMyGLSurfaceView;
     private Button mClearButton;
     private Button mSaveButton;
     private Button mBitmapButton;
-    private Button mBtnSave, mBtnRead,mBtnSavePreview;
+    private Button mBtnSave, mBtnRead,mBtnSavePreview,mBtnDel;
 
     private File mPhoto;
     private Bitmap mBitmap;
@@ -67,6 +69,7 @@ public class Main2Activity extends AppCompatActivity {
         mBtnSave = (Button) findViewById(R.id.btn_edit_save);
         mBtnRead = (Button) findViewById(R.id.btn_edit_read);
         mBtnSavePreview = (Button) findViewById(R.id.btn_edit_save_preview);
+        mBtnDel = (Button) findViewById(R.id.btn_edit_del);
         mSv = (ScrollView) findViewById(R.id.sv_edit_content);
         mEText = (EditText) findViewById(R.id.modify_edit_text_view);
         mEText.setInputType(InputType.TYPE_NULL);
@@ -164,6 +167,12 @@ public class Main2Activity extends AppCompatActivity {
                 File file = new File(AppConfig.PATH_SD+name);
                 NetworkUtil.qnFile(file,name);
                 startActivity(new Intent(Main2Activity.this,ImageActivity.class));
+            }
+        });
+        mBtnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendKeyCode(67);
             }
         });
     }
