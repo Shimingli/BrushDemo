@@ -133,8 +133,6 @@ public class DrawActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(mEText.getText())) {
                     mEText.setCursorVisible(false);
                     FileUtils.getScrollViewBitmap(mSv, AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
-                    // File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
-                    // NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
                     startActivity(new Intent(DrawActivity.this, ImageActivity.class));
                     mEText.setCursorVisible(true);
                 }
