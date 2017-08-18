@@ -30,4 +30,12 @@ public class SystemUtils {
             }
         }).start();
     }
+
+    /***
+     * 返回以毫秒为单位的当前时间
+     * @return
+     */
+    public static Long getDataTimeMillis(){
+         return System.currentTimeMillis();
+    }
 }

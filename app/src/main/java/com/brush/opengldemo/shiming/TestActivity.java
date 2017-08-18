@@ -92,12 +92,14 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             /*三个操作 1.保存长图 2.上传服务器  3.预览*/
-//                if (!TextUtils.isEmpty(mEText.getText())) {
+                if (!TextUtils.isEmpty(mEText.getText())) {
+                    mEText.setCursorVisible(false);
                     FileUtils.getScrollViewBitmap(mSv, AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
 //                    File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
 //                    NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
                     startActivity(new Intent(TestActivity.this, ImageActivity.class));
-//                }
+                    mEText.setCursorVisible(true);
+                }
             }
         });
         mBtnSave.setOnClickListener(new View.OnClickListener() {

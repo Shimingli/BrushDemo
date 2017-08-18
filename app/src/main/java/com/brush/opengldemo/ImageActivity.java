@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.brush.opengldemo.config.AppConfig;
 import com.brush.opengldemo.utils.FileUtils;
 import com.brush.opengldemo.utils.NetworkUtil;
+import com.brush.opengldemo.utils.SystemUtils;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
-                NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
+                NetworkUtil.qnFile(file, "scrollview_" + SystemUtils.getDataTimeMillis() + ".png");
             }
         });
 

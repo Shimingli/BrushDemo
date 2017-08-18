@@ -35,7 +35,7 @@ public class NetworkUtil {
                     Log.e("TAG","上传成功" + info.statusCode);
                 }else{
                     Log.e("TAG","上传失败 = " +  info);
-                    ToastUtil.showToast("上传失败 = " +  info);
+                    ToastUtil.showToast("上传失败 = " +  info.error);
                 }
             }
         }, new UploadOptions(null, null, false, new UpProgressHandler() {
