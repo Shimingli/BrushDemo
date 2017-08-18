@@ -16,6 +16,9 @@ public class BitmapUtils {
      * @return 缩放后的Bitmap
      */
     public static Bitmap resizeImage(Bitmap originalBitmap, int newWidth, int newHeight){
+        if (originalBitmap==null){
+            return null;
+        }
         int width = originalBitmap.getWidth();
         int height = originalBitmap.getHeight();
         //定义欲转换成的宽、高

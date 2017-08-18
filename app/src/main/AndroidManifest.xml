@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".shiming.DrawActivity"
+                  android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,10 +33,10 @@
         </activity>
         <!-- 用来预览长图的Activity -->
         <activity android:name=".ImageActivity"/>
-        <activity android:name=".shiming.TestActivity"
+        <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".shiming.SetingPenConfigActivity">
+        <activity android:name=".shiming.SettingPenConfigActivity">
         </activity>
     </application>
 

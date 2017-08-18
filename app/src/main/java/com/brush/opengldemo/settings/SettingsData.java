@@ -78,7 +78,7 @@ public class SettingsData {
         sd.setColorWrapper(colorWrapper);
 
         sd.setShowBrushView(showBrushView);
-
+        sd.setPaintWidht(paintWidht);
         return sd;
     }
 

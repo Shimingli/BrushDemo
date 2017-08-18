@@ -1,15 +1,16 @@
 package com.brush.opengldemo.shiming;
 
+
+
 /**
- * Created by lichaojian on 16-8-28.
+ * Created by shiming on 2017/8/16.
  */
+
 public interface DrawViewInterface {
 
-    void redo();
-
+    //上一步
     void undo();
-
+    //重新绘制
     void reset();
 
-    String save(String path, String rootPath);
 }

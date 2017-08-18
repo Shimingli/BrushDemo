@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.brush.opengldemo.shiming.TestActivity;
+import com.brush.opengldemo.shiming.DrawActivity;
 
 import butterknife.ButterKnife;
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.noopnegl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
+                startActivity(new Intent(MainActivity.this, DrawActivity.class));
             }
         });
     }

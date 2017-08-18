@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.brush.opengldemo.shiming.DrawPenView
+    android:visibility="gone"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myglsurface_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</com.brush.opengldemo.shiming.DrawPenView>

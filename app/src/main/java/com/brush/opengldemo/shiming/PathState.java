@@ -6,8 +6,9 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 
 /**
- * Created by lichaojian on 16-8-28.
+ * Created by shiming on 2017/8/16.
  */
+
 public class PathState  {
     private static PathState mPathState = null;
     private PathDrawData mPathDrawData;
@@ -25,7 +26,7 @@ public class PathState  {
 
     public void onDraw(PathDrawData baseDrawData, Canvas canvas) {
         if (baseDrawData != null) {
-            PathDrawData pathDrawData = (PathDrawData) baseDrawData;
+            PathDrawData pathDrawData = baseDrawData;
             canvas.drawPath(pathDrawData.getPath(), pathDrawData.getPaint());
         }
     }
@@ -41,7 +42,7 @@ public class PathState  {
         mPathDrawData.setPaint(pathPaint);
         mPathDrawData.setPath(path);
         mPathDrawData.setPoint(event.getX() + "," + event.getY() + "|");
-        command.setCommand(TestActivity.COMMAND_ADD);
+        command.setCommand(DrawActivity.COMMAND_ADD);
         command.getCommandDrawList().add(mPathDrawData);
         CommandUtils.getInstance().getUndoCommandList().add(command);
         DrawDataUtils.getInstance().getSaveDrawDataList().add(mPathDrawData);

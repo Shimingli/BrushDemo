@@ -17,16 +17,14 @@ import android.view.View;
 
 import com.brush.opengldemo.settings.SettingsData;
 import com.brush.opengldemo.settings.SettingsManager;
-import com.brush.opengldemo.utils.FileUtils;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by shiming on 2017/8/16.
  */
 
-public class DrawView extends View implements DrawViewInterface {
+public class DrawPenView extends View implements DrawViewInterface {
     private static final String TAG = "DrawView";
     private Paint mPaint;//画笔
     private Canvas mCanvas;//画布
@@ -37,18 +35,19 @@ public class DrawView extends View implements DrawViewInterface {
     private SettingsManager settingsManager;
     private SettingsData settingsData;
     private int mArgb;
+    private String mOldColor;
 
-    public DrawView(Context context) {
+    public DrawPenView(Context context) {
         super(context);
         initParameter(context);
     }
 
-    public DrawView(Context context, AttributeSet attrs) {
+    public DrawPenView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initParameter(context);
     }
 
-    public DrawView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DrawPenView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initParameter(context);
     }
@@ -67,85 +66,147 @@ public class DrawView extends View implements DrawViewInterface {
         settingsManager = SettingsManager.getInstance(context);
         settingsData = settingsManager.getSettingsData().clone();
         int size = settingsData.getPaintWidht();
-        String s = convertRGBToHex(settingsData.getColorWrapper().getRed(), settingsData.getColorWrapper().getGreen(), settingsData.getColorWrapper().getBlue());
-        changePaintColor(Color.parseColor(s));
+        mOldColor = convertRGBToHex(settingsData.getColorWrapper().getRed(), settingsData.getColorWrapper().getGreen(), settingsData.getColorWrapper().getBlue());
+        changePaintColor(Color.parseColor(mOldColor));
         changePaintSize(size);
     }
+
     //**将rgb色彩值转成16进制代码**
-    public  String convertRGBToHex(int r, int g, int b) {
+    public String convertRGBToHex(int r, int g, int b) {
         String rFString, rSString, gFString, gSString,
                 bFString, bSString, result;
         int red, green, blue;
         int rred, rgreen, rblue;
         red = r / 16;
         rred = r % 16;
-        if (red == 10) rFString = "A";
-        else if (red == 11) rFString = "B";
-        else if (red == 12) rFString = "C";
-        else if (red == 13) rFString = "D";
-        else if (red == 14) rFString = "E";
-        else if (red == 15) rFString = "F";
-        else rFString = String.valueOf(red);
+        if (red == 10)
+            rFString = "A";
+        else if (red == 11)
+            rFString = "B";
+        else if (red == 12)
+            rFString = "C";
+        else if (red == 13)
+            rFString = "D";
+        else if (red == 14)
+            rFString = "E";
+        else if (red == 15)
+            rFString = "F";
+        else
+            rFString = String.valueOf(red);
 
-        if (rred == 10) rSString = "A";
-        else if (rred == 11) rSString = "B";
-        else if (rred == 12) rSString = "C";
-        else if (rred == 13) rSString = "D";
-        else if (rred == 14) rSString = "E";
-        else if (rred == 15) rSString = "F";
-        else rSString = String.valueOf(rred);
+        if (rred == 10)
+            rSString = "A";
+        else if (rred == 11)
+            rSString = "B";
+        else if (rred == 12)
+            rSString = "C";
+        else if (rred == 13)
+            rSString = "D";
+        else if (rred == 14)
+            rSString = "E";
+        else if (rred == 15)
+            rSString = "F";
+        else
+            rSString = String.valueOf(rred);
 
         rFString = rFString + rSString;
 
         green = g / 16;
         rgreen = g % 16;
 
-        if (green == 10) gFString = "A";
-        else if (green == 11) gFString = "B";
-        else if (green == 12) gFString = "C";
-        else if (green == 13) gFString = "D";
-        else if (green == 14) gFString = "E";
-        else if (green == 15) gFString = "F";
-        else gFString = String.valueOf(green);
+        if (green == 10)
+            gFString = "A";
+        else if (green == 11)
+            gFString = "B";
+        else if (green == 12)
+            gFString = "C";
+        else if (green == 13)
+            gFString = "D";
+        else if (green == 14)
+            gFString = "E";
+        else if (green == 15)
+            gFString = "F";
+        else
+            gFString = String.valueOf(green);
 
-        if (rgreen == 10) gSString = "A";
-        else if (rgreen == 11) gSString = "B";
-        else if (rgreen == 12) gSString = "C";
-        else if (rgreen == 13) gSString = "D";
-        else if (rgreen == 14) gSString = "E";
-        else if (rgreen == 15) gSString = "F";
-        else gSString = String.valueOf(rgreen);
+        if (rgreen == 10)
+            gSString = "A";
+        else if (rgreen == 11)
+            gSString = "B";
+        else if (rgreen == 12)
+            gSString = "C";
+        else if (rgreen == 13)
+            gSString = "D";
+        else if (rgreen == 14)
+            gSString = "E";
+        else if (rgreen == 15)
+            gSString = "F";
+        else
+            gSString = String.valueOf(rgreen);
 
         gFString = gFString + gSString;
 
         blue = b / 16;
         rblue = b % 16;
 
-        if (blue == 10) bFString = "A";
-        else if (blue == 11) bFString = "B";
-        else if (blue == 12) bFString = "C";
-        else if (blue == 13) bFString = "D";
-        else if (blue == 14) bFString = "E";
-        else if (blue == 15) bFString = "F";
-        else bFString = String.valueOf(blue);
+        if (blue == 10)
+            bFString = "A";
+        else if (blue == 11)
+            bFString = "B";
+        else if (blue == 12)
+            bFString = "C";
+        else if (blue == 13)
+            bFString = "D";
+        else if (blue == 14)
+            bFString = "E";
+        else if (blue == 15)
+            bFString = "F";
+        else
+            bFString = String.valueOf(blue);
 
-        if (rblue == 10) bSString = "A";
-        else if (rblue == 11) bSString = "B";
-        else if (rblue == 12) bSString = "C";
-        else if (rblue == 13) bSString = "D";
-        else if (rblue == 14) bSString = "E";
-        else if (rblue == 15) bSString = "F";
-        else bSString = String.valueOf(rblue);
+        if (rblue == 10)
+            bSString = "A";
+        else if (rblue == 11)
+            bSString = "B";
+        else if (rblue == 12)
+            bSString = "C";
+        else if (rblue == 13)
+            bSString = "D";
+        else if (rblue == 14)
+            bSString = "E";
+        else if (rblue == 15)
+            bSString = "F";
+        else
+            bSString = String.valueOf(rblue);
         bFString = bFString + bSString;
         result = "#" + rFString + gFString + bFString;
         return result;
-
     }
+
     private void initPaint() {
         mPaint = new Paint();
         mPaint.setColor(Color.parseColor("#FF4081"));
         mPaint.setStrokeWidth(10);
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);//结束的笔画为圆心
+        //        mPaint.setStrokeCap(Paint.Cap.BUTT);//结束的笔画为正方形
+        //        mPaint.setStrokeCap(Paint.Cap.SQUARE);//结束的笔画正方形
+        mPaint.setStrokeJoin(Paint.Join.ROUND);//连接处元
+        //        mPaint.setStrokeJoin(Paint.Join.MITER);//连接处锐角
+        mPaint.setAlpha(188);
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeMiter(1.0f);
+        // 设置画笔遮罩滤镜 ,传入度数和样式
+        //是让你绘制的图像感觉像是从屏幕中“凸”起来更有立体感一样
+        //        mPaint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.NORMAL));
+        //这里的半径就是塞进拐角处圆形的半径
+        //        mPaint.setPathEffect(new CornerPathEffect(100));
+        //线条看起来很凌乱
+        //        mPaint.setPathEffect(new DiscretePathEffect(20,5));
+        //        Shader shader = new LinearGradient(0, 0, 400, 400, Color.BLUE,Color.RED, Shader.TileMode.REPEAT);
+        // 设置shader
+        //        mPaint.setShader(shader);
+
     }
 
     private void initCanvas() {
@@ -167,16 +228,13 @@ public class DrawView extends View implements DrawViewInterface {
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
         switch (mCanvasCode) {
-            case TestActivity.CANVAS_NORMAL:
+            case DrawActivity.CANVAS_NORMAL:
                 mCurrentState.onDraw(mBaseDrawData, canvas);
                 break;
-            case TestActivity.CANVAS_UNDO:
+            case DrawActivity.CANVAS_UNDO:
                 undo();
                 break;
-            case TestActivity.CANVAS_REDO:
-                redo();
-                break;
-            case TestActivity.CANVAS_RESET:
+            case DrawActivity.CANVAS_RESET:
                 reset();
                 break;
             default:
@@ -188,7 +246,7 @@ public class DrawView extends View implements DrawViewInterface {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mCanvasCode = TestActivity.CANVAS_NORMAL;
+        mCanvasCode = DrawActivity.CANVAS_NORMAL;
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
@@ -198,14 +256,18 @@ public class DrawView extends View implements DrawViewInterface {
                     drawFromData();
                     return super.onTouchEvent(event);
                 }
+                mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 mCurrentState.pointerDownDrawData(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 actionMove(event);
+                mGetTimeListner.stopTime();
                 break;
             case MotionEvent.ACTION_UP:
+                long time = System.currentTimeMillis();
+                mGetTimeListner.getTime(time);
                 actionUp(event);
                 break;
             case MotionEvent.ACTION_POINTER_UP:
@@ -218,6 +280,17 @@ public class DrawView extends View implements DrawViewInterface {
         return true;
     }
 
+    public TimeListener mGetTimeListner;
+
+    public void setGetTimeListener(TimeListener l) {
+        mGetTimeListner = l;
+    }
+
+    public interface TimeListener {
+        void getTime(long l);
+
+        void stopTime();
+    }
 
     private void actionDown(MotionEvent event) {
         mBaseDrawData = mCurrentState.downDrawData(event, mPaint);
@@ -233,11 +306,6 @@ public class DrawView extends View implements DrawViewInterface {
     }
 
     @Override
-    public void redo() {
-        redoFromCommand(CommandUtils.getInstance().redo());
-    }
-
-    @Override
     public void undo() {
         reset();
         undoFromCommand(CommandUtils.getInstance().undo());
@@ -250,37 +318,10 @@ public class DrawView extends View implements DrawViewInterface {
         mPaint.setXfermode(null);
     }
 
-    @Override
-    public String save(String path, String rootPath) {
-        // TODO: 2016/8/8 从数据源里面获取相应的参数，保存为XML,PNG,SVG
-        String pngFileName = null;
-        pngFileName = FileUtils.saveAsPng(mBitmap, path, rootPath);
-        //        XMLUtils xmlUtils = new XMLUtils();
-        //        String[] xmlData = DrawDataUtils.getInstance().getXMLData();
-        //        xmlUtils.encodeXML(rootPath + "/" + pngFileName + ".xml", xmlData[0], xmlData[1], xmlData[2]);
-        //        SVGUtils svgUtils = new SVGUtils();
-        //        svgUtils.encodeSVG(DrawDataUtils.getInstance().getSaveDrawDataList(), rootPath + "/" + pngFileName + ".svg");
-        return pngFileName;
-    }
-
-    public Bitmap saveBitmap(String path, String rootPath) {
-        // TODO: 2016/8/8 从数据源里面获取相应的参数，保存为XML,PNG,SVG
-        String pngFileName = null;
-        //        pngFileName = FileUtils.saveAsPng(mBitmap, path, rootPath);
-        //        XMLUtils xmlUtils = new XMLUtils();
-        //        String[] xmlData = DrawDataUtils.getInstance().getXMLData();
-        //        xmlUtils.encodeXML(rootPath + "/" + pngFileName + ".xml", xmlData[0], xmlData[1], xmlData[2]);
-        //        SVGUtils svgUtils = new SVGUtils();
-        //        svgUtils.encodeSVG(DrawDataUtils.getInstance().getSaveDrawDataList(), rootPath + "/" + pngFileName + ".svg");
-        return mBitmap;
-    }
 
     public void setCurrentState(PathState currentState) {
         mCurrentState = currentState;
     }
-
-
-
 
 
     public void setBackColor(@ColorInt int backColor) {
@@ -292,12 +333,9 @@ public class DrawView extends View implements DrawViewInterface {
     /**
      * 逐行扫描 清楚边界空白。
      *
-     *
      * @param blank 边距留多少个像素
-     * @return
+     * @return tks github E-signature
      */
-
-
     public Bitmap clearBlank(int blank) {
         if (mBitmap != null) {
             int HEIGHT = mBitmap.getHeight();
@@ -380,7 +418,7 @@ public class DrawView extends View implements DrawViewInterface {
 
         if (command != null) {
             switch (command.getCommand()) {
-                case TestActivity.COMMAND_ADD:
+                case DrawActivity.COMMAND_ADD:
                     Iterator<PathDrawData> iterator = DrawDataUtils.getInstance().getSaveDrawDataList().iterator();
                     while (iterator.hasNext()) {
                         PathDrawData baseDrawData = iterator.next();
@@ -400,31 +438,6 @@ public class DrawView extends View implements DrawViewInterface {
     }
 
 
-    private void redoFromCommand(Command command) {
-        if (command != null) {
-            switch (command.getCommand()) {
-                case TestActivity.COMMAND_ADD:
-                    drawFromRedoData(command.getCommandDrawList());
-                    break;
-                default:
-                    Log.e(TAG, "redoFromCommand" + Integer.toString(command.getCommand()));
-                    break;
-            }
-        }
-    }
-
-    /**
-     * 从redo里面恢复数据
-     */
-    private void drawFromRedoData(List<PathDrawData> redoList) {
-        int size = redoList.size();
-        for (int i = 0; i < size; ++i) {
-            PathDrawData baseDrawData = redoList.get(i);
-            baseDrawData.onDraw(mCanvas);
-            //            DrawDataUtils.getInstance().getSaveDrawDataList().add(baseDrawData);
-        }
-    }
-
     public void drawFromData() {
         int size = DrawDataUtils.getInstance().getSaveDrawDataList().size();
         for (int i = 0; i < size; ++i) {
@@ -433,24 +446,15 @@ public class DrawView extends View implements DrawViewInterface {
         }
     }
 
-    public void addCommand() {
-        Iterator<PathDrawData> iterator = DrawDataUtils.getInstance().getSaveDrawDataList().iterator();
-        Command command;
-        while (iterator.hasNext()) {
-            PathDrawData baseDrawData = iterator.next();
-            command = new Command();
-            command.setCommand(TestActivity.COMMAND_ADD);
-            command.getCommandDrawList().add(baseDrawData);
-            CommandUtils.getInstance().getUndoCommandList().add(command);
-        }
-    }
 
     public void onResume() {
         boolean b = settingsManager.hasChanges();
-        if (b){
-            System.out.println("shiming");
-            String s = convertRGBToHex(settingsData.getColorWrapper().getRed(), settingsData.getColorWrapper().getGreen(), settingsData.getColorWrapper().getBlue());
+        if (b) {
+            SettingsData settingsDatanew = settingsManager.getSettingsData().clone();
+            String s = convertRGBToHex(settingsDatanew.getColorWrapper().getRed(), settingsDatanew.getColorWrapper().getGreen(), settingsDatanew.getColorWrapper().getBlue());
             changePaintColor(Color.parseColor(s));
+            int paintWidht = settingsDatanew.getPaintWidht();
+            changePaintSize(paintWidht);
             settingsManager.setChangesRead();
         }
     }

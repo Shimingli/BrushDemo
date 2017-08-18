@@ -3,10 +3,8 @@ package com.brush.opengldemo.shiming;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lichaojian on 16-8-28.
- */
-public class CommandUtils {
+
+public class  CommandUtils {
     private static final String TAG = "CommandUtils";
     private static CommandUtils mCommandUtils = null;
     private List<Command> mUndoCommandList = null;

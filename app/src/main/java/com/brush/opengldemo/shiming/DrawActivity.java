@@ -1,10 +1,12 @@
 package com.brush.opengldemo.shiming;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
@@ -14,6 +16,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -30,22 +33,45 @@ import java.io.FileInputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TestActivity extends AppCompatActivity {
+public class DrawActivity extends AppCompatActivity {
     public static final int MODE_PATH = 0;
     public static final int CANVAS_NORMAL = 0;
     public static final int CANVAS_UNDO = 1;//撤回画笔
-    public static final int CANVAS_REDO = 2;
     public static final int CANVAS_RESET = 3;//全部清除
-    private DrawView mDrawView;
     public static final int COMMAND_ADD = 0;
-    private BrushWeightTest mBrushWeightTest;
+    private DrawViewLayout mDrawViewLayout;
     public static final String ROOT_DIRECTORY = Environment.getExternalStorageDirectory().toString() + "/note";
     public static final String TEMPORARY_PATH = ROOT_DIRECTORY + "/temporary";
     private Bitmap mBitmap;
     private EditText mEText;
-    private Button mBtnLook,mBtnSave,mBtnRead,mBtnDel;
+    private Button mBtnLook, mBtnSave, mBtnRead, mBtnDel;
     private ScrollView mSv;
-    /**图片命名*/
+    private long mOldTime;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                boolean obj = (boolean) msg.obj;
+                if (obj) {
+                    DrawPenView view = mDrawViewLayout.getSaveBitmap();
+                    if (view != null) {
+                        mBitmap = view.clearBlank(100);
+                        handler.post(runnableUi);
+                    }
+                }
+            } catch (Exception e) {
+
+            } finally {
+                handler.removeCallbacks(runnable);
+            }
+
+        }
+    };
+    /**
+     * 图片命名
+     */
     private static String full_name = "";
     private static final String LAST_NAME = "img_";
     private int first_name = 1;
@@ -54,37 +80,49 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        final Handler handler = new Handler();
+
         mSv = (ScrollView) findViewById(R.id.sv_edit_txt);
         mEText = (EditText) findViewById(R.id.modify_edit_text_view);
         mBtnLook = (Button) findViewById(R.id.btn_look);
         mBtnSave = (Button) findViewById(R.id.btn_test_save);
         mBtnRead = (Button) findViewById(R.id.btn_test_read);
         mBtnDel = (Button) findViewById(R.id.btn_test_del);
-        mBrushWeightTest = (BrushWeightTest) findViewById(R.id.brush_weight);
+        mDrawViewLayout = (DrawViewLayout) findViewById(R.id.brush_weight);
         /**EditText禁止选择和长按*/
         mEText.setLongClickable(false);
         mEText.setTextIsSelectable(false);
         ViewUtiles.hideSoftInputMethod(mEText);
-        mBrushWeightTest.setgoToAcitivity(new BrushWeightTest.IActionCallback() {
+        mEText.clearFocus();
+        mDrawViewLayout.setgoToAcitivity(new DrawViewLayout.IActionCallback() {
+
             @Override
-            public void gotoWetingActivity(View view) {
-                startActivity(new Intent(TestActivity.this, SetingPenConfigActivity.class));
+            public void gotoSettingActivity(View view) {
+                startActivity(new Intent(DrawActivity.this, SettingPenConfigActivity.class));
             }
 
             @Override
-            public void save(DrawView view) {
+            public void saveBitmap(DrawPenView view) {
                 mBitmap = view.clearBlank(100);
                 handler.post(runnableUi);
-
+                handler.removeCallbacks(runnable);
             }
 
             @Override
             public void creatNewLine() {
-//                mEText.setText("\n\r");
                 int index = mEText.getSelectionStart();
                 Editable editable = mEText.getText();
                 editable.insert(index, "\n");//\r 这是增加空格
+            }
+
+            @Override
+            public void getUptime(final long l) {
+                mOldTime = l;
+                handler.postDelayed(runnable, 100);
+            }
+
+            @Override
+            public void stopTime() {
+                handler.removeCallbacks(runnable);
             }
         });
 
@@ -95,9 +133,9 @@ public class TestActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(mEText.getText())) {
                     mEText.setCursorVisible(false);
                     FileUtils.getScrollViewBitmap(mSv, AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
-//                    File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
-//                    NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
-                    startActivity(new Intent(TestActivity.this, ImageActivity.class));
+                    // File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_SCROLLVIEW);
+                    // NetworkUtil.qnFile(file, AppConfig.NAME_IMG_SCROLLVIEW);
+                    startActivity(new Intent(DrawActivity.this, ImageActivity.class));
                     mEText.setCursorVisible(true);
                 }
             }
@@ -105,7 +143,7 @@ public class TestActivity extends AppCompatActivity {
         mBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FileUtils.saveTextSd(mEText.getText().toString(),AppConfig.NAME_IMG_CONTENT);
+                FileUtils.saveTextSd(mEText.getText().toString(), AppConfig.NAME_IMG_CONTENT);
                 mEText.setText("");
             }
         });
@@ -113,9 +151,9 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String txt = FileUtils.readTextWrapSd();
-//                    mEText.setText(txt);
+                //                    mEText.setText(txt);
 
-                if(TextUtils.isEmpty(txt))
+                if (TextUtils.isEmpty(txt))
                     return;
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(txt);
                 Pattern pattern = Pattern.compile("\\[p](\\S+?)\\[/p]");//匹配[xx]的字符串
@@ -127,7 +165,7 @@ public class TestActivity extends AppCompatActivity {
                     group = group.substring(3, group.length() - 4);
                     FileInputStream fis = null;
                     Bitmap bitmap = FileUtils.readBitmapSd(AppConfig.PATH_SD + group + ".png");
-                    ImageSpan imageSpan = new ImageSpan(TestActivity.this, bitmap);
+                    ImageSpan imageSpan = new ImageSpan(DrawActivity.this, bitmap);
                     spannableStringBuilder.setSpan(imageSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     BitmapUtils.recycled(bitmap);
                 }
@@ -144,12 +182,34 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
+    final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            long l1 = System.currentTimeMillis();
+            if ((l1 - mOldTime) > 1000) {
+                handler.removeCallbacks(runnable);
+                Message msg = handler.obtainMessage();
+                msg.obj = true;
+                handler.sendMessage(msg);
+            } else {
+                handler.postDelayed(this, 200);
+            }
+
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
-        mBrushWeightTest.onResume();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        mDrawViewLayout.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
     Runnable runnableUi = new Runnable() {
         @Override
@@ -157,7 +217,7 @@ public class TestActivity extends AppCompatActivity {
             final Bitmap bitmap = BitmapUtils.resizeImage(mBitmap, 100, 100);
             if (bitmap != null) {
                 //根据Bitmap对象创建ImageSpan对象
-                ImageSpan imageSpan = new ImageSpan(TestActivity.this, bitmap);
+                ImageSpan imageSpan = new ImageSpan(DrawActivity.this, bitmap);
                 //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
                 full_name = LAST_NAME + first_name;
                 String s = "[p]" + full_name + "[/p]";
@@ -181,10 +241,15 @@ public class TestActivity extends AppCompatActivity {
                 }).start();
             }
 
-            mBrushWeightTest.clearScreen();
+            mDrawViewLayout.clearScreen();
         }
 
     };
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+    }
 }

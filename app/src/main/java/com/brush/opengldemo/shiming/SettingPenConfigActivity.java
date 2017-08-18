@@ -21,7 +21,7 @@ import com.brush.opengldemo.weight.ColorBean;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SetingPenConfigActivity extends AppCompatActivity {
+public class SettingPenConfigActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ColorAdapter mColorAdapter;
@@ -31,9 +31,9 @@ public class SetingPenConfigActivity extends AppCompatActivity {
     private LinearLayout mContainer_1;
     private LinearLayout mContainer_2;
     private LinearLayout mContainer_3;
-    private ImageView mTextView_1;
-    private ImageView mTextView_2;
-    private ImageView mTextView_3;
+    private ImageView mPenWidth_1;
+    private ImageView mPenWidth_2;
+    private ImageView mPenWidth_3;
     private int mArgb;
 
     @Override
@@ -46,17 +46,15 @@ public class SetingPenConfigActivity extends AppCompatActivity {
         creatDatas();
         mColorAdapter.setNewData(mArrayList);
         mArgb = Color.argb( 255,settingsData.getColorWrapper().getRed(),settingsData.getColorWrapper().getGreen(), settingsData.getColorWrapper().getBlue());
-        System.out.println("shiming  argb"+ mArgb);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mTextView_1.setColorFilter(mArgb);
-        mTextView_2.setColorFilter(mArgb);
-        mTextView_3.setColorFilter(mArgb);
+        mPenWidth_1.setColorFilter(mArgb);
+        mPenWidth_2.setColorFilter(mArgb);
+        mPenWidth_3.setColorFilter(mArgb);
     }
 
     private void creatDatas() {
@@ -79,9 +77,9 @@ public class SetingPenConfigActivity extends AppCompatActivity {
         mContainer_2 = (LinearLayout) findViewById(R.id.px_container2);
         mContainer_3 = (LinearLayout) findViewById(R.id.px_container3);
 
-        mTextView_1 = (ImageView) findViewById(R.id.textView1);
-        mTextView_2 = (ImageView) findViewById(R.id.textView2);
-        mTextView_3 = (ImageView) findViewById(R.id.textView3);
+        mPenWidth_1 = (ImageView) findViewById(R.id.textView1);
+        mPenWidth_2 = (ImageView) findViewById(R.id.textView2);
+        mPenWidth_3 = (ImageView) findViewById(R.id.textView3);
 
 
 
@@ -100,9 +98,9 @@ public class SetingPenConfigActivity extends AppCompatActivity {
                 int rgb = Color.rgb(colorBean.red, colorBean.green, colorBean.blue);
                 settingsData.getColorWrapper().setColorWithoutAlpha(rgb);
                 settingsManager.saveSettingsData(settingsData);
-                mTextView_1.setColorFilter(rgb);
-                mTextView_2.setColorFilter(rgb);
-                mTextView_3.setColorFilter(rgb);
+                mPenWidth_1.setColorFilter(rgb);
+                mPenWidth_2.setColorFilter(rgb);
+                mPenWidth_3.setColorFilter(rgb);
 
             }
         });
@@ -126,7 +124,8 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        settingsData.setSize(0.1f);
+                        settingsData.setPaintWidht(10);
+                        settingsManager.saveSettingsData(settingsData);
                     }
 
                     @Override
@@ -134,7 +133,7 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     }
                 });
-                mTextView_1.startAnimation(animationSet);
+                mPenWidth_1.startAnimation(animationSet);
             }
         });
         mContainer_2.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +155,8 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        settingsData.setSize(0.5f);
+                        settingsData.setPaintWidht(15);
+                        settingsManager.saveSettingsData(settingsData);
                     }
 
                     @Override
@@ -164,7 +164,7 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     }
                 });
-                mTextView_2.startAnimation(animationSet);
+                mPenWidth_2.startAnimation(animationSet);
             }
         });
         mContainer_3.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +186,8 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        settingsData.setSize(0.8f);
+                        settingsData.setPaintWidht(25);
+                        settingsManager.saveSettingsData(settingsData);
                     }
 
                     @Override
@@ -194,14 +195,13 @@ public class SetingPenConfigActivity extends AppCompatActivity {
 
                     }
                 });
-                mTextView_3.startAnimation(animationSet);
+                mPenWidth_3.startAnimation(animationSet);
             }
         });
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
 
     }

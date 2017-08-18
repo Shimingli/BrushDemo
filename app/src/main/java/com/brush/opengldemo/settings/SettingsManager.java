@@ -48,7 +48,6 @@ public class SettingsManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SETTINGS_DATA_KEY, gson.toJson(settingsData));
         editor.apply();
-
         hasChanges = true;
     }
 
@@ -56,7 +55,6 @@ public class SettingsManager {
         String settingsDataString = sharedPreferences.getString(SETTINGS_DATA_KEY, null);
 
         if(settingsDataString == null) {
-            System.out.println("No settings data, creating new");
             settingsData = new SettingsData();
         } else {
             settingsData = gson.fromJson(settingsDataString, SettingsData.class);

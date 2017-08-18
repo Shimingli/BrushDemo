@@ -40,7 +40,7 @@
             android:id="@+id/text3"
             android:textSize="12sp"
             android:textColor="#000"
-            android:text="返回上一步"
+            android:text="返回上步"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
@@ -64,14 +64,14 @@
             android:id="@+id/text6"
             android:textSize="12sp"
             android:textColor="#000"
-            android:text="换行"
+            android:text="输入换行"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <com.brush.opengldemo.shiming.DrawView
-        android:visibility="gone"
-        android:id="@+id/myglsurface_view"
+    <ViewStub
+        android:id="@+id/draw_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:layout="@layout/draw_view_layout"/>
 </LinearLayout>

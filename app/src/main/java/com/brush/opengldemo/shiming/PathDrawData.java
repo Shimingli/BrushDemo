@@ -5,8 +5,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 /**
- * Created by lichaojian on 16-8-28.
+ * Created by shiming on 2017/8/16.
  */
+
 public class PathDrawData {
     private Path mPath;
     private String mPoint = "";

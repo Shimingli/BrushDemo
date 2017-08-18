@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.brush.opengldemo.shiming.TestActivity">
+    tools:context="com.brush.opengldemo.shiming.DrawActivity">
 <!--   <com.brush.opengldemo.shiming.DrawView
        android:id="@+id/draw_view"
        android:layout_width="match_parent"
@@ -62,7 +62,7 @@
           android:maxLength="1000"
           android:textSize="15sp"/>
    </ScrollView>
-   <com.brush.opengldemo.shiming.BrushWeightTest
+   <com.brush.opengldemo.shiming.DrawViewLayout
        android:id="@+id/brush_weight"
        android:layout_alignParentBottom="true"
        android:layout_width="match_parent"
