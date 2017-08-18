@@ -31,9 +31,11 @@ public class NetworkUtil {
         uploadManager.put(file, name, token, new UpCompletionHandler() {
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 if (info != null && info.isOK()) {
+                    ToastUtil.showToast("上传成功");
                     Log.e("TAG","上传成功" + info.statusCode);
                 }else{
                     Log.e("TAG","上传失败 = " +  info);
+                    ToastUtil.showToast("上传失败 = " +  info);
                 }
             }
         }, new UploadOptions(null, null, false, new UpProgressHandler() {

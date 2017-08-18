@@ -104,7 +104,7 @@ public class FileUtils {
     public static void saveTextSd(String txt, String name){
         try
         {
-            String fullNmae = AppConfig.PATH_SD+name+".txt";
+            String fullNmae = AppConfig.PATH_SD + name;
             File file = new File(fullNmae);
             if(file.exists()){
                 file.delete();
@@ -130,7 +130,7 @@ public class FileUtils {
     public static String readTextSd() {
         String str = "";
         try {
-            File urlFile = new File(AppConfig.PATH_SD + "content.txt");
+            File urlFile = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_CONTENT);
             InputStreamReader isr = new InputStreamReader(new FileInputStream(urlFile), "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String mimeTypeLine = null;
@@ -155,7 +155,7 @@ public class FileUtils {
     public static String readTextWrapSd() {
         String result = null;
         try {
-            File file = new File(AppConfig.PATH_SD + "content.txt");
+            File file = new File(AppConfig.PATH_SD + AppConfig.NAME_IMG_CONTENT);
             if (!file.exists()) {
                 return null;
             }

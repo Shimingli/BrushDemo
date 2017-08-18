@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:gravity="right"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_margin="15dp">
 
         <EditText
             android:id="@+id/modify_edit_text_view"
@@ -76,6 +76,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/btn_edit_del"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="删除" />
+
+        <Button
             android:id="@+id/btn_edit_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -94,6 +101,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="生成大图并预览" />
+            android:text="预览" />
     </LinearLayout>
 </LinearLayout>

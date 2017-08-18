@@ -11,13 +11,39 @@
        android:id="@+id/draw_view"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>-->
+   <LinearLayout
+       android:id="@+id/llt_test_top"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="right"
+       >
+      <Button
+          android:id="@+id/btn_test_del"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="删除"
+          />
+      <Button
+          android:id="@+id/btn_test_save"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="保存"
+          />
+      <Button
+          android:id="@+id/btn_test_read"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="读取"
+          />
    <Button
        android:id="@+id/btn_look"
        android:layout_alignParentRight="true"
        android:text="预览"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"/>
+   </LinearLayout>
    <ScrollView
+       android:layout_below="@id/llt_test_top"
        android:id="@+id/sv_edit_txt"
        android:layout_width="match_parent"
        android:layout_height="300dp"
